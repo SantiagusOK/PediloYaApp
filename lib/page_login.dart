@@ -68,7 +68,9 @@ class _PaginaLoginState extends State<PaginaLogin> {
                   width: 300,
                   child: TextField(
                     decoration: InputDecoration(
-                        hintText: 'Contraseña', border: OutlineInputBorder()),
+                      hintText: 'Contraseña',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
                 const SizedBox(

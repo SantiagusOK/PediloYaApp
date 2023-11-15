@@ -8,19 +8,12 @@ enum Pages { pageBotones, pageInicio, pageLogin }
 GoRouter router =
     GoRouter(debugLogDiagnostics: true, initialLocation: '/', routes: [
   GoRoute(
-      name: Pages.pageBotones.name,
+      name: Pages.pageInicio.name,
       path: '/',
       builder: (context, state) {
-        return const PagePantallas();
+        return const PageInicio();
       },
       routes: [
-        GoRoute(
-          name: Pages.pageInicio.name,
-          path: 'inicio',
-          builder: (context, state) {
-            return const PageInicio();
-          },
-        ),
         GoRoute(
           name: Pages.pageLogin.name,
           path: 'login',
