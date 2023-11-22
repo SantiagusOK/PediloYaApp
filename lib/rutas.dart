@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:pedilo_ya/page_inicio.dart';
 import 'package:pedilo_ya/page_login.dart';
-import 'package:pedilo_ya/pagina_pantalla.dart';
+import 'package:pedilo_ya/page_menu.dart';
 
-enum Pages { pageBotones, pageInicio, pageLogin }
+enum Pages { pageBotones, pageInicio, pageLogin, pageMenu }
 
 GoRouter router =
     GoRouter(debugLogDiagnostics: true, initialLocation: '/', routes: [
@@ -21,5 +21,11 @@ GoRouter router =
             return const PageLogin();
           },
         ),
+        GoRoute(
+            name: Pages.pageMenu.name,
+            path: 'menu',
+            builder: (context, state) {
+              return const PageMenu();
+            })
       ])
 ]);

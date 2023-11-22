@@ -23,6 +23,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 153, 153, 153),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

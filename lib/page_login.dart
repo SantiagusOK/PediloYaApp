@@ -77,7 +77,9 @@ class _PaginaLoginState extends State<PaginaLogin> {
                   height: 50,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    router.goNamed(Pages.pageMenu.name);
+                  },
                   style:
                       ElevatedButton.styleFrom(fixedSize: const Size(200, 60)),
                   child: const Text('ACEPTAR'),
