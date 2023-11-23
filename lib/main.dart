@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pedilo_ya/rutas.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +9,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: router,
+    return const MaterialApp(
+      home: PediloYaApp(),
     );
+  }
+}
+
+class PediloYaApp extends StatefulWidget {
+  const PediloYaApp({super.key});
+
+  @override
+  State<PediloYaApp> createState() => _PediloYaAppState();
+}
+
+class _PediloYaAppState extends State<PediloYaApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
   }
 }
