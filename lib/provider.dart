@@ -5,11 +5,16 @@ class DatosProvider extends ChangeNotifier {
   PediloYaApp _pediloYaApp = PediloYaApp();
   PediloYaApp get pediloYaApp => _pediloYaApp;
 
-  void agregarComidaALaLista(String comida, int precio, int cantidad) {
+  void agregarComidaALaLista(String comida, double precio, int cantidad) {
     _pediloYaApp.listaPedidoComida.add(comida);
     _pediloYaApp.listaPedidoPrecio.add(precio);
     _pediloYaApp.listaPedidoCantidad.add(cantidad);
     notifyListeners();
+  }
+
+  int cantidadComidaEnELCArrito() {
+    _pediloYaApp.cantidadCarrito = _pediloYaApp.listaPedidoCantidad.length;
+    return _pediloYaApp.listaPedidoComida.length;
   }
 
   void mostrarListaPedido() {

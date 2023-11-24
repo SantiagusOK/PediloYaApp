@@ -17,6 +17,30 @@ class _PaginaMenuState extends State<PaginaMenu> {
       builder: (context, datosProvider, child) {
         return Scaffold(
           appBar: AppBar(
+            actions: [
+              Stack(
+                children: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.shopping_cart_rounded)),
+                  datosProvider.cantidadComidaEnELCArrito() != 0
+                      ? Positioned(
+                          top: 0.0,
+                          right: 17.0,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            radius: 10.0,
+                            child: Text(
+                              "${datosProvider.cantidadComidaEnELCArrito()}",
+                              style: const TextStyle(
+                                  fontSize: 10.0, color: Colors.white),
+                            ),
+                          ),
+                        )
+                      : Container()
+                ],
+              )
+            ],
             title: const Center(
               child: Text('Menu'),
             ),
@@ -63,7 +87,7 @@ class _PaginaMenuState extends State<PaginaMenu> {
   }
 
   void _mostrarDialog(
-      BuildContext context, String name, int price, String image) {
+      BuildContext context, String name, double price, String image) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

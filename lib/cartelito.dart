@@ -9,7 +9,7 @@ class Cartelito extends StatefulWidget {
       required this.price,
       required this.image});
   final String name;
-  final int price;
+  final double price;
   final String image;
 
   @override
@@ -18,28 +18,33 @@ class Cartelito extends StatefulWidget {
 
 class _CartelitoState extends State<Cartelito> {
   int cantidad = 1;
-  bool cantidadNoIgualAUno = false;
+  //bool cantidadIgualAUno = false;
+  double precioFinalCOmida = 0;
 
-  void _cantidadIgualUno() {
-    setState(() {
-      if (cantidad == 1) {
-        cantidadNoIgualAUno = false;
-      } else {
-        cantidadNoIgualAUno = true;
-      }
-    });
-  }
-
-  void _botonesCantidad(String decision) {
+  void _botonesCantidad(String decision, double price) {
     setState(() {
       switch (decision) {
         case 'v+':
           cantidad++;
+          _calcularTotalCantidad(price, cantidad, decision);
         case 'v-':
           cantidad--;
           if (cantidad < 1) {
             cantidad = 1;
           }
+          _calcularTotalCantidad(price, cantidad, decision);
+      }
+    });
+  }
+
+  void _calcularTotalCantidad(double price, int cantidad, String decision) {
+    setState(() {
+      switch (decision) {
+        case "v+":
+          precioFinalCOmida = widget.price * cantidad;
+        case "v-":
+          precioFinalCOmida = widget.price;
+          precioFinalCOmida = widget.price * cantidad;
       }
     });
   }
@@ -72,7 +77,7 @@ class _CartelitoState extends State<Cartelito> {
                         children: [
                           IconButton(
                               onPressed: () {
-                                _botonesCantidad('v+');
+                                _botonesCantidad('v+', widget.price);
                               },
                               icon:
                                   const Icon(Icons.keyboard_arrow_up_rounded)),
@@ -80,21 +85,22 @@ class _CartelitoState extends State<Cartelito> {
                             'x$cantidad',
                             style: const TextStyle(fontSize: 30),
                           ),
-                          cantidadNoIgualAUno == false
-                              ? IconButton(
-                                  onPressed: () {
-                                    _botonesCantidad('v-');
-                                  },
-                                  icon: const Icon(
-                                      Icons.keyboard_arrow_down_rounded))
-                              : Container(),
+                          IconButton(
+                            onPressed: () {
+                              _botonesCantidad('v-', widget.price);
+                            },
+                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                          ),
                         ],
                       )
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text('\$${widget.price}',
-                      style: const TextStyle(fontSize: 30)),
+                  precioFinalCOmida == 0
+                      ? Text('\$${widget.price}',
+                          style: const TextStyle(fontSize: 30))
+                      : Text('\$$precioFinalCOmida',
+                          style: const TextStyle(fontSize: 30)),
                 ],
               ),
             ),
@@ -115,8 +121,17 @@ class _CartelitoState extends State<Cartelito> {
                   const SizedBox(width: 200),
                   TextButton(
                     onPressed: () {
-                      datosProvider.agregarComidaALaLista(
-                          widget.name, widget.price, cantidad);
+                      if (precioFinalCOmida == 0) {
+                        precioFinalCOmida = widget.price;
+                        datosProvider.agregarComidaALaLista(
+                            widget.name, precioFinalCOmida, cantidad);
+                      } else {
+                        datosProvider.agregarComidaALaLista(
+                            widget.name, precioFinalCOmida, cantidad);
+                      }
+                      setState(() {
+                        datosProvider.cantidadComidaEnELCArrito();
+                      });
                       Navigator.of(context).pop();
                     },
                     child: const Text(

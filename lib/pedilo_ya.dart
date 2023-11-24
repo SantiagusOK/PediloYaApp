@@ -1,8 +1,9 @@
 class PediloYaApp {
   List<String> listaPedidoComida = [];
-  List<int> listaPedidoPrecio = [];
+  List<double> listaPedidoPrecio = [];
   List<int> listaPedidoCantidad = [];
-  int totalPrecio = 0;
+  double totalPrecio = 0;
+  int cantidadCarrito = 0;
   String imagenPizzaNapolitana = "assets/pizza_napolitana.jpg";
   String imagenPancho = "assets/pancho.jpg";
   String imagenNada = "assets/pancho.jpg";
