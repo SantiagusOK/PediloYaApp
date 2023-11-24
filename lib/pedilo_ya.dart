@@ -1,16 +1,7 @@
 class PediloYaApp {
   List<String> listaPedidoComida = [];
   List<int> listaPedidoPrecio = [];
+  List<int> listaPedidoCantidad = [];
   int totalPrecio = 0;
-
-  void agregarComidaALaLista(String comida, int precio) {
-    listaPedidoComida.add(comida);
-    listaPedidoPrecio.add(precio);
-  }
-
-  void calcularTotal() {
-    for (int precio = 0; precio < listaPedidoPrecio.length; precio++) {
-      totalPrecio = totalPrecio + listaPedidoPrecio[precio];
-    }
-  }
+  String imagenPizzaNapolitana = "assets/pizza_napolitana.jpg";
 }

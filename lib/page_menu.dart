@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:pedilo_ya/cartelito.dart';
 import 'package:pedilo_ya/provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,7 @@ class _PaginaMenuState extends State<PaginaMenu> {
   @override
   Widget build(BuildContext context) {
     DatosProvider datos = Provider.of<DatosProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -28,7 +30,8 @@ class _PaginaMenuState extends State<PaginaMenu> {
               height: 100,
               child: ElevatedButton(
                   onPressed: () {
-                    datos.agregarComidaALaLista('pizza', 200);
+                    _mostrarDialog(context, 'Pizza Napolitana', 2300,
+                        datos.imagenMostrar());
                   },
                   child: const Text('Pizza')),
             ),
@@ -37,15 +40,17 @@ class _PaginaMenuState extends State<PaginaMenu> {
               height: 100,
               child: ElevatedButton(
                   onPressed: () {
-                    _showMyDialog();
-                    datos.agregarComidaALaLista('Pancho', 200);
+                    //_showMyDialog('Pizza', 200, "assets/pizza_napolitana.jpg");
                   },
                   child: const Text('Pancho')),
             ),
             const SizedBox(height: 50),
             SizedBox(
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  datos.agregarComidaALaLista('piza', 230, 2);
+                  datos.mostrarListaPedido();
+                },
                 child: const Text('Aceptar'),
               ),
             )
@@ -55,46 +60,12 @@ class _PaginaMenuState extends State<PaginaMenu> {
     );
   }
 
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
+  void _mostrarDialog(
+      BuildContext context, String name, int price, String image) {
+    showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('AlertDialog Title'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    child: const Text('Aceptar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  const SizedBox(
-                    width: 100,
-                  ),
-                  TextButton(
-                    child: const Text('Cerrar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            )
-          ],
-        );
+        return Cartelito(name: name, price: price, image: image);
       },
     );
   }
