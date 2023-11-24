@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:pedilo_ya/provider.dart";
+import "package:provider/provider.dart";
 
 class Cartelito extends StatefulWidget {
   const Cartelito(
@@ -45,85 +46,90 @@ class _CartelitoState extends State<Cartelito> {
 
   @override
   Widget build(BuildContext context) {
-    DatosProvider datos = DatosProvider();
-    return AlertDialog(
-      content: SizedBox(
-        width: 500,
-        height: 500,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                child: Image.asset(widget.image, height: 250),
-              ),
-              Text(
-                widget.name,
-                style: const TextStyle(fontSize: 30),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+    return Consumer<DatosProvider>(
+      builder: (context, datosProvider, child) {
+        return AlertDialog(
+          content: SizedBox(
+            width: 500,
+            height: 500,
+            child: Center(
+              child: Column(
                 children: [
-                  const Text('Cantidad:', style: TextStyle(fontSize: 30)),
-                  const SizedBox(width: 20),
-                  Column(
+                  SizedBox(
+                    child: Image.asset(widget.image, height: 250),
+                  ),
+                  Text(
+                    widget.name,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
-                          onPressed: () {
-                            _botonesCantidad('v+');
-                          },
-                          icon: const Icon(Icons.keyboard_arrow_up_rounded)),
-                      Text(
-                        'x$cantidad',
-                        style: const TextStyle(fontSize: 30),
-                      ),
-                      cantidadNoIgualAUno == false
-                          ? IconButton(
+                      const Text('Cantidad:', style: TextStyle(fontSize: 30)),
+                      const SizedBox(width: 20),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
                               onPressed: () {
-                                _botonesCantidad('v-');
+                                _botonesCantidad('v+');
                               },
                               icon:
-                                  const Icon(Icons.keyboard_arrow_down_rounded))
-                          : Container(),
+                                  const Icon(Icons.keyboard_arrow_up_rounded)),
+                          Text(
+                            'x$cantidad',
+                            style: const TextStyle(fontSize: 30),
+                          ),
+                          cantidadNoIgualAUno == false
+                              ? IconButton(
+                                  onPressed: () {
+                                    _botonesCantidad('v-');
+                                  },
+                                  icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded))
+                              : Container(),
+                        ],
+                      )
                     ],
-                  )
+                  ),
+                  const SizedBox(height: 10),
+                  Text('\$${widget.price}',
+                      style: const TextStyle(fontSize: 30)),
                 ],
               ),
-              const SizedBox(height: 10),
-              Text('\$${widget.price}', style: const TextStyle(fontSize: 30)),
-            ],
+            ),
           ),
-        ),
-      ),
-      actions: [
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    'Cancelar',
-                    style: TextStyle(fontSize: 30),
-                  )),
-              const SizedBox(width: 200),
-              TextButton(
-                  onPressed: () {
-                    datos.agregarComidaALaLista(
-                        widget.name, widget.price, cantidad);
-
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    'Aceptar',
-                    style: TextStyle(fontSize: 30),
-                  )),
-            ],
-          ),
-        )
-      ],
+          actions: [
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        'Cancelar',
+                        style: TextStyle(fontSize: 30),
+                      )),
+                  const SizedBox(width: 200),
+                  TextButton(
+                    onPressed: () {
+                      datosProvider.agregarComidaALaLista(
+                          widget.name, widget.price, cantidad);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Aceptar',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

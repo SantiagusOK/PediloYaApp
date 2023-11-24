@@ -22,8 +22,15 @@ class DatosProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String imagenMostrar() {
-    return _pediloYaApp.imagenPizzaNapolitana;
+  String imagenMostrar(String comida) {
+    switch (comida) {
+      case 'pizza_napo':
+        return _pediloYaApp.imagenPizzaNapolitana;
+      case 'pancho':
+        return _pediloYaApp.imagenPancho;
+      default:
+        return _pediloYaApp.imagenNada;
+    }
   }
 
   int totalCantidad(int price, int cantidad) {

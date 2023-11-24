@@ -13,50 +13,52 @@ class PaginaMenu extends StatefulWidget {
 class _PaginaMenuState extends State<PaginaMenu> {
   @override
   Widget build(BuildContext context) {
-    DatosProvider datos = Provider.of<DatosProvider>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text('Menu'),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 500,
-              height: 100,
-              child: ElevatedButton(
-                  onPressed: () {
-                    _mostrarDialog(context, 'Pizza Napolitana', 2300,
-                        datos.imagenMostrar());
-                  },
-                  child: const Text('Pizza')),
+    return Consumer<DatosProvider>(
+      builder: (context, datosProvider, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Center(
+              child: Text('Menu'),
             ),
-            SizedBox(
-              width: 500,
-              height: 100,
-              child: ElevatedButton(
-                  onPressed: () {
-                    //_showMyDialog('Pizza', 200, "assets/pizza_napolitana.jpg");
-                  },
-                  child: const Text('Pancho')),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 500,
+                  height: 100,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        _mostrarDialog(context, 'Pizza Napolitana', 2300,
+                            datosProvider.imagenMostrar('pizza_napo'));
+                      },
+                      child: const Text('Pizza')),
+                ),
+                SizedBox(
+                  width: 500,
+                  height: 100,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        _mostrarDialog(context, 'Pancho', 2200,
+                            datosProvider.imagenMostrar('pancho'));
+                      },
+                      child: const Text('Pancho')),
+                ),
+                const SizedBox(height: 50),
+                SizedBox(
+                  child: TextButton(
+                    onPressed: () {
+                      datosProvider.mostrarListaPedido();
+                    },
+                    child: const Text('Aceptar'),
+                  ),
+                )
+              ],
             ),
-            const SizedBox(height: 50),
-            SizedBox(
-              child: TextButton(
-                onPressed: () {
-                  datos.agregarComidaALaLista('piza', 230, 2);
-                  datos.mostrarListaPedido();
-                },
-                child: const Text('Aceptar'),
-              ),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
