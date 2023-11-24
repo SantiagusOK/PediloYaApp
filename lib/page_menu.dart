@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:pedilo_ya/cartelito.dart';
 import 'package:pedilo_ya/provider.dart';
+import 'package:pedilo_ya/rutas_app.dart';
 import 'package:provider/provider.dart';
 
 class PaginaMenu extends StatefulWidget {
@@ -21,12 +22,16 @@ class _PaginaMenuState extends State<PaginaMenu> {
               Stack(
                 children: [
                   IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.shopping_cart_rounded)),
+                    onPressed: () {
+                      ruta.goNamed(Pages.carrito.name);
+                    },
+                    icon: const Icon(Icons.shopping_cart_rounded),
+                    iconSize: 50,
+                  ),
                   datosProvider.cantidadComidaEnELCArrito() != 0
                       ? Positioned(
-                          top: 0.0,
-                          right: 17.0,
+                          top: 2.0,
+                          right: 30.0,
                           child: CircleAvatar(
                             backgroundColor: Colors.red,
                             radius: 10.0,
@@ -37,7 +42,7 @@ class _PaginaMenuState extends State<PaginaMenu> {
                             ),
                           ),
                         )
-                      : Container()
+                      : Container(),
                 ],
               )
             ],

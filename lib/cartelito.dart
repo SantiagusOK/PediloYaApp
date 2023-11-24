@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:pedilo_ya/provider.dart";
+import "package:pedilo_ya/rutas_app.dart";
 import "package:provider/provider.dart";
 
 class Cartelito extends StatefulWidget {
@@ -18,7 +19,6 @@ class Cartelito extends StatefulWidget {
 
 class _CartelitoState extends State<Cartelito> {
   int cantidad = 1;
-  //bool cantidadIgualAUno = false;
   double precioFinalCOmida = 0;
 
   void _botonesCantidad(String decision, double price) {
@@ -110,16 +110,15 @@ class _CartelitoState extends State<Cartelito> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        'Cancelar',
-                        style: TextStyle(fontSize: 30),
-                      )),
-                  const SizedBox(width: 200),
-                  TextButton(
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.cancel),
+                    iconSize: 60,
+                  ),
+                  const SizedBox(width: 100),
+                  IconButton(
                     onPressed: () {
                       if (precioFinalCOmida == 0) {
                         precioFinalCOmida = widget.price;
@@ -134,10 +133,27 @@ class _CartelitoState extends State<Cartelito> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: const Text(
-                      'Aceptar',
-                      style: TextStyle(fontSize: 30),
-                    ),
+                    icon: Icon(Icons.add_shopping_cart_rounded),
+                    iconSize: 60,
+                  ),
+                  const SizedBox(width: 100),
+                  IconButton(
+                    onPressed: () {
+                      if (precioFinalCOmida == 0) {
+                        precioFinalCOmida = widget.price;
+                        datosProvider.agregarComidaALaLista(
+                            widget.name, precioFinalCOmida, cantidad);
+                      } else {
+                        datosProvider.agregarComidaALaLista(
+                            widget.name, precioFinalCOmida, cantidad);
+                      }
+                      setState(() {
+                        datosProvider.cantidadComidaEnELCArrito();
+                      });
+                      ruta.goNamed(Pages.carrito.name);
+                    },
+                    icon: Icon(Icons.check),
+                    iconSize: 60,
                   ),
                 ],
               ),
