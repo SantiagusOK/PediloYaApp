@@ -61,8 +61,10 @@ class _CartelitoState extends State<Cartelito> {
               child: Column(
                 children: [
                   SizedBox(
+                      child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
                     child: Image.asset(widget.image, height: 250),
-                  ),
+                  )),
                   Text(
                     widget.name,
                     style: const TextStyle(fontSize: 30),

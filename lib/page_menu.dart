@@ -18,6 +18,7 @@ class _PaginaMenuState extends State<PaginaMenu> {
       builder: (context, datosProvider, child) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.red,
             actions: [
               Stack(
                 children: [
@@ -27,6 +28,7 @@ class _PaginaMenuState extends State<PaginaMenu> {
                     },
                     icon: const Icon(Icons.shopping_cart_rounded),
                     iconSize: 50,
+                    color: Colors.white,
                   ),
                   datosProvider.cantidadComidaEnELCArrito() != 0
                       ? Positioned(
@@ -46,6 +48,14 @@ class _PaginaMenuState extends State<PaginaMenu> {
                 ],
               )
             ],
+            leading: IconButton(
+                onPressed: () {
+                  ruta.goNamed(Pages.inicio.name);
+                },
+                icon: const Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                )),
             title: const Center(
               child: Text('Menu'),
             ),

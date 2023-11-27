@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:pedilo_ya/carte_direccion.dart";
 import "package:pedilo_ya/provider.dart";
 import "package:provider/provider.dart";
 
@@ -11,15 +10,6 @@ class CartelDesicion extends StatefulWidget {
 }
 
 class _CartelDesicionState extends State<CartelDesicion> {
-  void _mostrarCartelDireccion(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const CartelDireccion();
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<DatosProvider>(
@@ -56,10 +46,7 @@ class _CartelDesicionState extends State<CartelDesicion> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          _mostrarCartelDireccion(context);
-                        },
+                        onPressed: () {},
                         icon: const Icon(Icons.attach_money),
                         iconSize: 200,
                       ),

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:pedilo_ya/pedilo_ya.dart';
 
@@ -19,6 +21,10 @@ class DatosProvider extends ChangeNotifier {
 
   List listaDeComida() {
     return _pediloYaApp.listaPedidoComida;
+  }
+
+  List listaDatosComprobante() {
+    return _pediloYaApp.listaDatosComprobante;
   }
 
   List listaDePrecio() {
@@ -55,10 +61,72 @@ class DatosProvider extends ChangeNotifier {
     return price;
   }
 
+  bool datosEstanEnLista(String name, String pass) {
+    for (int p = 0; p < _pediloYaApp.listaUserName.length; p++) {
+      if (_pediloYaApp.listaUserName[p] == name &&
+          _pediloYaApp.listaPassUser[p] == pass) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   void eliminarUnaComidaEnLaLista(int index) {
     _pediloYaApp.listaPedidoComida.removeAt(index);
     _pediloYaApp.listaPedidoCantidad.removeAt(index);
     _pediloYaApp.listaPedidoPrecio.removeAt(index);
+  }
+
+  void mostrarDatos() {
+    print("""
+${_pediloYaApp.listaUserName}
+${_pediloYaApp.listaPassUser}
+""");
+  }
+
+  String verificarLogin(String name, String pass) {
+    if (name == '' || pass == '') {
+      return 'null';
+    }
+    for (int p = 0; p < _pediloYaApp.listaUserName.length; p++) {
+      if (_pediloYaApp.listaUserName[p] == name &&
+          _pediloYaApp.listaPassUser[p] == pass) {
+        _pediloYaApp.userLoginNow = _pediloYaApp.listaNombreYApellido[p];
+        return 'bien';
+      }
+    }
+    return 'error';
+  }
+
+  void guardarNombreYApellido(String nameUser) {
+    _pediloYaApp.userLoginNow = nameUser;
+  }
+
+  String nombreUserNow() {
+    return _pediloYaApp.userLoginNow;
+  }
+
+  void guardarNuevoUsuario(
+      String userName, String pass, String name, String adress) {
+    _pediloYaApp.listaUserName.add(userName);
+    _pediloYaApp.listaPassUser.add(pass);
+    _pediloYaApp.listaNombreYApellido.add(name);
+    _pediloYaApp.listaAdress.add(adress);
+  }
+
+  String datosNuevos(String name, String pass1, String pass2) {
+    if (pass1 == '' || name == '') {
+      return 'null';
+    }
+    if (pass1 != pass2) {
+      return 'c1!=c2';
+    }
+    for (int p = 0; p < _pediloYaApp.listaUserName.length; p++) {
+      if (_pediloYaApp.listaUserName[p] == name) {
+        return 'u==ou';
+      }
+    }
+    return 'bien';
   }
 
   double calcularTotal() {
@@ -70,5 +138,17 @@ class DatosProvider extends ChangeNotifier {
           _pediloYaApp.totalPrecio + _pediloYaApp.listaPedidoPrecio[precio];
     }
     return _pediloYaApp.totalPrecio;
+  }
+
+  List listaComida() {
+    return _pediloYaApp.listaMenuComida;
+  }
+
+  List listaPrecio() {
+    return _pediloYaApp.listaMenuComida;
+  }
+
+  List listaImagen() {
+    return _pediloYaApp.listaMenuComida;
   }
 }

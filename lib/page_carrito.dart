@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:pedilo_ya/carte_decision.dart";
+import "package:pedilo_ya/carte_direccion.dart";
 import "package:pedilo_ya/provider.dart";
 import "package:pedilo_ya/rutas_app.dart";
 import "package:provider/provider.dart";
@@ -12,11 +13,11 @@ class PaginaCarrito extends StatefulWidget {
 }
 
 class _PaginaCarritoState extends State<PaginaCarrito> {
-  void _mostrarCartelDecision(BuildContext context, int index) {
+  void _mostrarCartelDecision(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CartelDesicion(index: index);
+        return const CartelDesicion();
       },
     );
   }
@@ -55,7 +56,9 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                 color: Colors.green,
                 width: 100,
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _mostrarCartelDecision(context);
+                    },
                     child: const Icon(
                       Icons.check,
                       color: Colors.white,
