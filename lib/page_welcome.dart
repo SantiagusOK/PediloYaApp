@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pedilo_ya/cartel_register_error.dart';
+
 import 'package:pedilo_ya/provider.dart';
-import 'package:pedilo_ya/rutas_app.dart';
+
 import 'package:provider/provider.dart';
 
 class PaginaWelcome extends StatefulWidget {

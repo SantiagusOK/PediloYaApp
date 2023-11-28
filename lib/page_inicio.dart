@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:pedilo_ya/cartel_register_error.dart';
+
 import "package:pedilo_ya/rutas_app.dart";
 
 class PaginaInicio extends StatefulWidget {
@@ -49,7 +49,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
                           child: Image.asset(image_logo),
                         ),
                         const Text(
-                          '\"Hay que proceder a pedirla"',
+                          '"Hay que proceder a pedirla"',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ],

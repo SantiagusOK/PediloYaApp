@@ -90,7 +90,7 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
                     ),
                   ),
                 ),
-                SizedBox(height: 100),
+                const SizedBox(height: 100),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -185,7 +185,6 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
                         datosProvider.guardarNuevoUsuario(
                             _username, _passUser1, _name, _adressUser);
                         reiniciarValores();
-                        datosProvider.mostrarDatos();
                         ruta.goNamed(Pages.inicio.name);
                       } else if (datosProvider.datosNuevos(
                               _username, _passUser1, _passUser2) ==

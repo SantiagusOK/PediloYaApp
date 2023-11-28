@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:pedilo_ya/pedilo_ya.dart';
 
@@ -38,10 +36,7 @@ class DatosProvider extends ChangeNotifier {
   void mostrarListaPedido() {
     for (int nPedido = 0;
         nPedido < _pediloYaApp.listaPedidoComida.length;
-        nPedido++) {
-      print(
-          '${_pediloYaApp.listaPedidoComida[nPedido]}   ${_pediloYaApp.listaPedidoCantidad[nPedido]}   \$${_pediloYaApp.listaPedidoPrecio[nPedido]}');
-    }
+        nPedido++) {}
     notifyListeners();
   }
 
