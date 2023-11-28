@@ -145,10 +145,10 @@ ${_pediloYaApp.listaPassUser}
   }
 
   List listaPrecio() {
-    return _pediloYaApp.listaMenuComida;
+    return _pediloYaApp.listaMenuPrecio;
   }
 
   List listaImagen() {
-    return _pediloYaApp.listaMenuComida;
+    return _pediloYaApp.listaMenuImagenComida;
   }
 }

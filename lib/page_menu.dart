@@ -12,6 +12,16 @@ class PaginaMenu extends StatefulWidget {
 }
 
 class _PaginaMenuState extends State<PaginaMenu> {
+  void _mostrarDialog(
+      BuildContext context, String name, double price, String image) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Cartelito(name: name, price: price, image: image);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<DatosProvider>(
@@ -49,13 +59,14 @@ class _PaginaMenuState extends State<PaginaMenu> {
               )
             ],
             leading: IconButton(
-                onPressed: () {
-                  ruta.goNamed(Pages.inicio.name);
-                },
-                icon: const Icon(
-                  Icons.exit_to_app,
-                  color: Colors.white,
-                )),
+              onPressed: () {
+                ruta.goNamed(Pages.inicio.name);
+              },
+              icon: const Icon(
+                Icons.exit_to_app,
+                color: Colors.white,
+              ),
+            ),
             title: const Center(
               child: Text('Menu'),
             ),
@@ -64,49 +75,85 @@ class _PaginaMenuState extends State<PaginaMenu> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 500,
-                  height: 100,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        _mostrarDialog(context, 'Pizza Napolitana', 2300,
-                            datosProvider.imagenMostrar('pizza_napo'));
-                      },
-                      child: const Text('Pizza')),
-                ),
-                SizedBox(
-                  width: 500,
-                  height: 100,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        _mostrarDialog(context, 'Pancho', 2200,
-                            datosProvider.imagenMostrar('pancho'));
-                      },
-                      child: const Text('Pancho')),
-                ),
-                const SizedBox(height: 50),
-                SizedBox(
-                  child: TextButton(
-                    onPressed: () {
-                      datosProvider.mostrarListaPedido();
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: datosProvider.listaComida().length,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 150,
+                                  width: 900,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100))),
+                                    onPressed: () {
+                                      _mostrarDialog(
+                                        context,
+                                        '${datosProvider.listaComida()[index]}',
+                                        datosProvider.listaPrecio()[index],
+                                        datosProvider.listaImagen()[index],
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 300,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            child: Image.asset(
+                                              datosProvider
+                                                  .listaImagen()[index],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '${datosProvider.listaComida()[index]}',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 40),
+                                              ),
+                                              Text(
+                                                '\$${datosProvider.listaPrecio()[index]}',
+                                                style: const TextStyle(
+                                                    color: Colors.yellow,
+                                                    fontSize: 40),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
                     },
-                    child: const Text('Aceptar'),
                   ),
-                )
+                ),
               ],
             ),
           ),
         );
-      },
-    );
-  }
-
-  void _mostrarDialog(
-      BuildContext context, String name, double price, String image) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Cartelito(name: name, price: price, image: image);
       },
     );
   }
