@@ -1,16 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:pedilo_ya/rutas.dart';
-
-class PageInicio extends StatelessWidget {
-  const PageInicio({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PaginaInicio(),
-    );
-  }
-}
+import "package:flutter/material.dart";
+import 'package:pedilo_ya/cartel_register_error.dart';
+import "package:pedilo_ya/rutas_app.dart";
 
 class PaginaInicio extends StatefulWidget {
   const PaginaInicio({super.key});
@@ -20,30 +10,88 @@ class PaginaInicio extends StatefulWidget {
 }
 
 class _PaginaInicioState extends State<PaginaInicio> {
+  String image_logo = 'assets/pedilo_logo.png';
+  String fondo = 'assets/fondo.jpg';
+  List<String> frasesPedila = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('PEDILO YA'),
-            const SizedBox(height: 200),
-            ElevatedButton(
-              onPressed: () {
-                router.goNamed(Pages.pageLogin.name);
-              },
-              style: ElevatedButton.styleFrom(fixedSize: const Size(400, 60)),
-              child: const Text('Iniciar Sesion'),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            height: 500,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(fondo),
+                fit: BoxFit.fill,
+              ),
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(fixedSize: const Size(400, 60)),
-              child: const Text('Registrarse'),
+          ),
+          Center(
+            child: Column(
+              children: [
+                Container(
+                  height: 350,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                    ),
+                    color: Colors.red,
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 200,
+                          child: Image.asset(image_logo),
+                        ),
+                        const Text(
+                          '\"Hay que proceder a pedirla"',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 60),
+                SizedBox(
+                  height: 100,
+                  width: 400,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black),
+                    onPressed: () {
+                      ruta.goNamed(Pages.login.name);
+                    },
+                    child: const Text(
+                      'Iniciar Sesion',
+                      style: TextStyle(color: Colors.black, fontSize: 30),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 100,
+                  width: 350,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black),
+                    onPressed: () {
+                      ruta.goNamed(Pages.register.name);
+                    },
+                    child: const Text('Registrarse',
+                        style: TextStyle(color: Colors.black, fontSize: 30)),
+                  ),
+                )
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
