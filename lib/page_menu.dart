@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import 'package:pedilo_ya/cartel_seguro.dart';
 import 'package:pedilo_ya/cartelito.dart';
+import 'package:pedilo_ya/page_comidedit.dart';
 import 'package:pedilo_ya/provider.dart';
 import 'package:pedilo_ya/rutas_app.dart';
 import 'package:provider/provider.dart';
@@ -12,12 +14,34 @@ class PaginaMenu extends StatefulWidget {
 }
 
 class _PaginaMenuState extends State<PaginaMenu> {
+  bool guardarFavorito = true;
+  String pediloYaLogo = 'assets/pedilo_logo.png';
+
+  void cambiarFuncionDelBotonFavorito() {
+    setState(() {
+      if (guardarFavorito) {
+        guardarFavorito = false;
+      } else {
+        guardarFavorito = true;
+      }
+    });
+  }
+
   void _mostrarDialog(
-      BuildContext context, String name, double price, String image) {
+      BuildContext context, String name, int price, String image) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Cartelito(name: name, price: price, image: image);
+      },
+    );
+  }
+
+  void _mostrarCartelSeguro(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const CartelSeguro();
       },
     );
   }
@@ -27,130 +51,242 @@ class _PaginaMenuState extends State<PaginaMenu> {
     return Consumer<DatosProvider>(
       builder: (context, datosProvider, child) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.red,
-            actions: [
-              Stack(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      ruta.goNamed(Pages.carrito.name);
-                    },
-                    icon: const Icon(Icons.shopping_cart_rounded),
-                    iconSize: 50,
-                    color: Colors.white,
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
                   ),
-                  datosProvider.cantidadComidaEnELCArrito() != 0
-                      ? Positioned(
-                          top: 2.0,
-                          right: 30.0,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            radius: 10.0,
-                            child: Text(
-                              "${datosProvider.cantidadComidaEnELCArrito()}",
-                              style: const TextStyle(
-                                  fontSize: 10.0, color: Colors.white),
-                            ),
-                          ),
-                        )
-                      : Container(),
-                ],
-              )
-            ],
-            leading: IconButton(
-              onPressed: () {
-                ruta.goNamed(Pages.inicio.name);
-              },
-              icon: const Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-              ),
-            ),
-            title: const Center(
-              child: Text('Menu'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        datosProvider.nombreUserNow(),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.menu_book_rounded),
+                      SizedBox(width: 20),
+                      Text(
+                        'Menu',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    ruta.goNamed(Pages.menu.name);
+                  },
+                ),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.shopping_cart),
+                      SizedBox(width: 20),
+                      Text(
+                        'Carrito',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    ruta.goNamed(Pages.carrito.name);
+                  },
+                ),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.favorite),
+                      SizedBox(width: 20),
+                      Text(
+                        'Favorito',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    datosProvider.listaFavoritos();
+                    ruta.goNamed(Pages.favorito.name);
+                  },
+                ),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.login_rounded),
+                      SizedBox(width: 20),
+                      Text(
+                        'Salir',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    _mostrarCartelSeguro(context);
+                  },
+                ),
+
+                /*ListTile(
+                  title: const Text('Home'),
+                  onTap: () {},
+                ),*/
+              ],
             ),
           ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: datosProvider.listaComida().length,
-                    itemBuilder: (context, index) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 150,
-                                  width: 900,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(100))),
-                                    onPressed: () {
-                                      _mostrarDialog(
-                                        context,
-                                        '${datosProvider.listaComida()[index]}',
-                                        datosProvider.listaPrecio()[index],
-                                        datosProvider.listaImagen()[index],
-                                      );
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 300,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: Image.asset(
-                                              datosProvider
-                                                  .listaImagen()[index],
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                '${datosProvider.listaComida()[index]}',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 40),
-                                              ),
-                                              Text(
-                                                '\$${datosProvider.listaPrecio()[index]}',
-                                                style: const TextStyle(
-                                                    color: Colors.yellow,
-                                                    fontSize: 40),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+          appBar: AppBar(
+            backgroundColor: Colors.red,
+            title: Center(
+                child: SizedBox(
+              width: 200,
+              height: 30,
+              child: Image.asset(pediloYaLogo),
+            )),
+          ),
+          body: Expanded(
+            child: ListView.builder(
+              itemCount: datosProvider.devolverListaMenu().length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Container(
+                      height: 250,
+                      width: 1150,
+                      decoration: BoxDecoration(
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(0.0, 0.0),
+                              blurRadius: 20,
+                            ),
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        //////////////////////////// CONTENIDO DEL BOTON ////////////////////////////
+                        children: [
+                          const SizedBox(width: 15),
+                          Container(
+                            height: 220,
+                            width: 360,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 15,
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.asset(
+                                datosProvider.devolverListaMenu()[index][2],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          SizedBox(
+                            width: 400,
+                            child: Text(
+                                datosProvider.devolverListaMenu()[index][0],
+                                style: const TextStyle(fontSize: 35)),
+                          ),
+                          const SizedBox(width: 150),
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      //////////////////////// BOTON PARA COMPRAR //////////////////////////////
+                                      onPressed: () {
+                                        datosProvider.cambiarPosicion('menu');
+                                        datosProvider.guardarComidaAEditar(
+                                            datosProvider
+                                                .devolverListaMenu()[index][0],
+                                            datosProvider
+                                                .devolverListaMenu()[index][1],
+                                            datosProvider
+                                                .devolverListaMenu()[index][2]);
+                                        ruta.goNamed(Pages.edit.name);
+                                      },
+                                      icon: const Icon(Icons.add_box, size: 50),
+                                    ),
+                                    datosProvider.puedeGuardar(datosProvider
+                                            .devolverListaMenu()[index][0])
+                                        ? IconButton(
+                                            //////////////////////// BOTON PARA GUARDAR A FAVORITOS //////////////////////////////
+                                            onPressed: () {
+                                              datosProvider.guardarComidaAFavoritos(
+                                                  datosProvider
+                                                          .devolverListaMenu()[
+                                                      index][0],
+                                                  datosProvider
+                                                          .devolverListaMenu()[
+                                                      index][1],
+                                                  datosProvider
+                                                          .devolverListaMenu()[
+                                                      index][2]);
+                                              setState(() {
+                                                datosProvider.puedeGuardar(
+                                                    datosProvider
+                                                            .devolverListaMenu()[
+                                                        index][0]);
+                                              });
+                                            },
+                                            icon: const Icon(
+                                                Icons.favorite_border,
+                                                size: 50),
+                                          )
+                                        : IconButton(
+                                            //////////////////////// BOTON PARA GUARDAR A FAVORITOS //////////////////////////////
+                                            onPressed: () {
+                                              setState(() {
+                                                datosProvider
+                                                    .eliminarComidaAFavoritos(
+                                                  datosProvider.devolverIndex(
+                                                    datosProvider
+                                                            .devolverListaMenu()[
+                                                        index][0],
+                                                  ),
+                                                );
+                                                datosProvider.puedeGuardar(
+                                                    datosProvider
+                                                            .devolverListaMenu()[
+                                                        index][0]);
+                                              });
+                                            },
+                                            icon: const Icon(Icons.favorite,
+                                                color: Colors.red, size: 50),
+                                          ),
+                                  ],
+                                ),
+                                Text(
+                                  '\$${datosProvider.devolverListaMenu()[index][1]}',
+                                  style: const TextStyle(fontSize: 20),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                );
+              },
             ),
           ),
         );

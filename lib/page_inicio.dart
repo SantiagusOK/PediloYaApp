@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
+import "package:pedilo_ya/provider.dart";
 
 import "package:pedilo_ya/rutas_app.dart";
+import "package:provider/provider.dart";
 
 class PaginaInicio extends StatefulWidget {
   const PaginaInicio({super.key});
@@ -13,6 +15,13 @@ class _PaginaInicioState extends State<PaginaInicio> {
   String image_logo = 'assets/pedilo_logo.png';
   String fondo = 'assets/fondo.jpg';
   List<String> frasesPedila = [];
+  @override
+  void initState() {
+    super.initState();
+    DatosProvider datosProvider =
+        Provider.of<DatosProvider>(context, listen: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

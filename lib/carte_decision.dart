@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:pedilo_ya/carte_direccion.dart";
 import "package:pedilo_ya/provider.dart";
+import "package:pedilo_ya/rutas_app.dart";
 import "package:provider/provider.dart";
 
 class CartelDesicion extends StatefulWidget {
@@ -42,7 +43,9 @@ class _CartelDesicionState extends State<CartelDesicion> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ruta.goNamed(Pages.tarjeta.name);
+                        },
                         icon: const Icon(Icons.branding_watermark_outlined),
                         iconSize: 200,
                       ),
@@ -57,8 +60,8 @@ class _CartelDesicionState extends State<CartelDesicion> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
-                          _mostrarCartelDireccion(context);
+                          datosProvider.cambiarTipoDePago('Efectivo');
+                          ruta.goNamed(Pages.resultado.name);
                         },
                         icon: const Icon(Icons.attach_money),
                         iconSize: 200,

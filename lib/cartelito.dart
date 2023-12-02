@@ -10,7 +10,7 @@ class Cartelito extends StatefulWidget {
       required this.price,
       required this.image});
   final String name;
-  final double price;
+  final int price;
   final String image;
 
   @override
@@ -19,9 +19,9 @@ class Cartelito extends StatefulWidget {
 
 class _CartelitoState extends State<Cartelito> {
   int cantidad = 1;
-  double precioFinalCOmida = 0;
+  int precioFinalCOmida = 0;
 
-  void _botonesCantidad(String decision, double price) {
+  void _botonesCantidad(String decision, int price) {
     setState(() {
       switch (decision) {
         case 'v+':
@@ -37,7 +37,7 @@ class _CartelitoState extends State<Cartelito> {
     });
   }
 
-  void _calcularTotalCantidad(double price, int cantidad, String decision) {
+  void _calcularTotalCantidad(int price, int cantidad, String decision) {
     setState(() {
       switch (decision) {
         case "v+":
@@ -61,19 +61,24 @@ class _CartelitoState extends State<Cartelito> {
               child: Column(
                 children: [
                   SizedBox(
-                      child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset(widget.image, height: 250),
-                  )),
+                    height: 300,
+                    width: 400,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.asset(
+                        widget.image,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                   Text(
                     widget.name,
                     style: const TextStyle(fontSize: 30),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       const Text('Cantidad:', style: TextStyle(fontSize: 30)),
-                      const SizedBox(width: 20),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -85,7 +90,7 @@ class _CartelitoState extends State<Cartelito> {
                                   const Icon(Icons.keyboard_arrow_up_rounded)),
                           Text(
                             'x$cantidad',
-                            style: const TextStyle(fontSize: 30),
+                            style: const TextStyle(fontSize: 20),
                           ),
                           IconButton(
                             onPressed: () {
@@ -97,7 +102,6 @@ class _CartelitoState extends State<Cartelito> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 10),
                   precioFinalCOmida == 0
                       ? Text('\$${widget.price}',
                           style: const TextStyle(fontSize: 30))
@@ -116,8 +120,8 @@ class _CartelitoState extends State<Cartelito> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.cancel),
-                    iconSize: 60,
+                    icon: const Icon(Icons.cancel),
+                    iconSize: 30,
                   ),
                   const SizedBox(width: 100),
                   IconButton(
@@ -135,8 +139,8 @@ class _CartelitoState extends State<Cartelito> {
                       });
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.add_shopping_cart_rounded),
-                    iconSize: 60,
+                    icon: const Icon(Icons.add_shopping_cart_rounded),
+                    iconSize: 30,
                   ),
                   const SizedBox(width: 100),
                   IconButton(
@@ -154,8 +158,8 @@ class _CartelitoState extends State<Cartelito> {
                       });
                       ruta.goNamed(Pages.carrito.name);
                     },
-                    icon: Icon(Icons.check),
-                    iconSize: 60,
+                    icon: const Icon(Icons.check),
+                    iconSize: 30,
                   ),
                 ],
               ),

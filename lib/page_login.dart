@@ -41,6 +41,14 @@ class _PaginaLoginState extends State<PaginaLogin> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    DatosProvider datosProvider =
+        Provider.of<DatosProvider>(context, listen: false);
+    datosProvider.cargarDatos();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<DatosProvider>(
       builder: (context, datosProvider, child) {
@@ -88,10 +96,6 @@ class _PaginaLoginState extends State<PaginaLogin> {
                         width: 500,
                         child: TextField(
                           controller: _controllerUserName,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50)),
-                              labelText: 'Nombre de usuario'),
                         ),
                       ),
                       const SizedBox(height: 30),
