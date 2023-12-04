@@ -23,67 +23,81 @@ class _PaginaResultadoState extends State<PaginaResultado> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    DatosProvider datosProvider =
+        Provider.of<DatosProvider>(context, listen: false);
+    datosProvider.guardarComidaASaved();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<DatosProvider>(
       builder: (context, datosProvider, child) {
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.red,
-            leading: IconButton(
-              onPressed: () {
-                ruta.goNamed(Pages.menu.name);
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Colors.white,
+            title: Center(
+              child: SizedBox(
+                width: 200,
+                height: 30,
+                child: Image.asset(pediloYaLogo),
               ),
             ),
-            title: Center(
-                child: SizedBox(
-              width: 200,
-              height: 30,
-              child: Image.asset(pediloYaLogo),
-            )),
           ),
           body: Center(
             child: Column(
               children: [
                 Expanded(
                   child: ListView.builder(
+                    padding: const EdgeInsets.all(10),
                     itemCount: datosProvider.listaCarrito().length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
-                          const SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                width: 50,
-                                child: Text(
-                                  '${index + 1}',
+                          const SizedBox(height: 10),
+                          Container(
+                            decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  width: 50,
+                                  child: Text(
+                                    '${index + 1}',
+                                    style: const TextStyle(fontSize: 35),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                  child: Text(
+                                    'x${datosProvider.listaCarrito()[index][1]}',
+                                    style: const TextStyle(fontSize: 35),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 350,
+                                  child: Text(
+                                    '${datosProvider.listaCarrito()[index][0]}',
+                                    style: const TextStyle(fontSize: 35),
+                                  ),
+                                ),
+                                Text(
+                                  '\$${datosProvider.listaCarrito()[index][2]}',
                                   style: const TextStyle(fontSize: 35),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 50,
-                                child: Text(
-                                  'x${datosProvider.listaCarrito()[index][1]}',
-                                  style: const TextStyle(fontSize: 35),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 350,
-                                child: Text(
-                                  '${datosProvider.listaCarrito()[index][0]}',
-                                  style: const TextStyle(fontSize: 35),
-                                ),
-                              ),
-                              Text(
-                                '\$${datosProvider.listaCarrito()[index][2]}',
-                                style: const TextStyle(fontSize: 35),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       );
@@ -91,68 +105,43 @@ class _PaginaResultadoState extends State<PaginaResultado> {
                   ),
                 ),
                 Container(
-                  height: 250,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const SizedBox(
-                            width: 300,
-                            child: Text(
-                              'Pedido a nombre de: ',
-                              style: TextStyle(fontSize: 30),
-                            ),
+                    height: 100,
+                    width: 1000,
+                    decoration: BoxDecoration(
+                        /*boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 1,
                           ),
-                          SizedBox(
-                            width: 300,
-                            child: Text(
-                              datosProvider.nombreUserNow(),
-                              style: const TextStyle(fontSize: 30),
-                            ),
-                          )
-                        ],
+                        ],*/
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(0)),
+                    child: Expanded(
+                      child: ListView.separated(
+                        itemCount: datosProvider
+                            .devolverListaComprobanteDatos()
+                            .length,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(
+                          color: Colors.red,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(datosProvider
+                                  .devolverListaComprobanteDatos()[index][0]),
+                              const SizedBox(width: 10),
+                              Text(datosProvider
+                                  .devolverListaComprobanteDatos()[index][1]),
+                            ],
+                          );
+                        },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const SizedBox(
-                            width: 300,
-                            child: Text(
-                              'Tipo de pago:',
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 300,
-                            child: Text(
-                              datosProvider.mostrarTipoDePago(),
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const SizedBox(
-                            width: 300,
-                            child: Text(
-                              'Direccion:',
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 300,
-                            child: Text(
-                              datosProvider.mostrarDireccion(),
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    )),
+                const SizedBox(
+                  height: 100,
                 ),
                 Container(
                   height: 100,
@@ -198,7 +187,7 @@ class _PaginaResultadoState extends State<PaginaResultado> {
                                 iconColor: Colors.white,
                               ),
                               onPressed: () {
-                                datosProvider.borrarPedidos();
+                                datosProvider.guardarComidaAMisCompras();
                                 ruta.goNamed(Pages.fin.name);
                               },
                               icon: const Icon(

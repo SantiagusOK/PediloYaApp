@@ -25,7 +25,15 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
   String fechaVc1 = '';
   String fechaVc2 = '';
   String nombre = '';
-  void actualizarDatos() {}
+  void mostrarSnakbar(String mensaje) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mensaje),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<DatosProvider>(builder: (context, datosProvider, child) {
@@ -210,7 +218,7 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 30),
+                      const SizedBox(width: 30),
                       SizedBox(
                         width: 150,
                         height: 50,
@@ -249,7 +257,7 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                 width: 550,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Color.fromARGB(255, 30, 85, 131),
+                  color: const Color.fromARGB(255, 30, 85, 131),
                 ),
                 child: Stack(
                   children: [
@@ -257,7 +265,8 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                       top: 110,
                       left: 450,
                       child: Text(tipo,
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 20)),
                     ),
                     Positioned(
                       top: 100,
@@ -271,8 +280,9 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                       top: 150,
                       left: 40,
                       child: Text(
-                        '$tarjNum',
-                        style: TextStyle(color: Colors.white, fontSize: 45),
+                        tarjNum,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 45),
                       ),
                     ),
                     Positioned(
@@ -282,12 +292,14 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                         children: [
                           Text(
                             '$fechaC1 / $fechaC2 ',
-                            style: TextStyle(color: Colors.white, fontSize: 15),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 15),
                           ),
-                          SizedBox(width: 50),
+                          const SizedBox(width: 50),
                           Text(
                             '$fechaVc1 / $fechaVc2',
-                            style: TextStyle(color: Colors.white, fontSize: 15),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 15),
                           ),
                         ],
                       ),
@@ -297,7 +309,8 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                       left: 35,
                       child: Text(
                         nombre,
-                        style: TextStyle(color: Colors.white, fontSize: 35),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 35),
                       ),
                     ),
                   ],

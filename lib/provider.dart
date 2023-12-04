@@ -5,12 +5,13 @@ import 'package:pedilo_ya/pedilo_ya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DatosProvider extends ChangeNotifier {
-  PediloYaApp _pediloYaApp = PediloYaApp();
+  final PediloYaApp _pediloYaApp = PediloYaApp();
   PediloYaApp get pediloYaApp => _pediloYaApp;
+
+  //FUNCIONES
   List listaFavoritos() {
     List listFavorito =
         _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][4];
-    print(listFavorito);
     return listFavorito;
   }
 
@@ -108,6 +109,7 @@ class DatosProvider extends ChangeNotifier {
     bdDeComidaFavorita.add([comida, precio, imagen]);
     _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][4] =
         bdDeComidaFavorita;
+    guardarDatos(_pediloYaApp.bd);
   }
 
   void eliminarComidaAFavoritos(int index) {
@@ -117,6 +119,7 @@ class DatosProvider extends ChangeNotifier {
     bdDeComidaFavorita.removeAt(index);
     _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][4] =
         bdDeComidaFavorita;
+    guardarDatos(_pediloYaApp.bd);
   }
 
   void agregarComidaALaLista(String comida, int precio, int cantidad) {
@@ -159,7 +162,8 @@ class DatosProvider extends ChangeNotifier {
 
   String mostrarDireccion() {
     _pediloYaApp.adressNow =
-        _pediloYaApp.listaAdress[_pediloYaApp.posiciondeListaBaseDeDato];
+        _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][3];
+
     return _pediloYaApp.adressNow;
   }
 
@@ -177,16 +181,6 @@ class DatosProvider extends ChangeNotifier {
     return price;
   }
 
-  bool datosEstanEnLista(String name, String pass) {
-    for (int p = 0; p < _pediloYaApp.listaUserName.length; p++) {
-      if (_pediloYaApp.listaUserName[p] == name &&
-          _pediloYaApp.listaPassUser[p] == pass) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   void eliminarUnaComidaEnLaLista(int index) {
     _pediloYaApp.listaCarrito.removeAt(index);
   }
@@ -198,11 +192,11 @@ class DatosProvider extends ChangeNotifier {
     for (int p = 0; p < _pediloYaApp.bd.length; p++) {
       if (_pediloYaApp.bd[p][1] == name && _pediloYaApp.bd[p][2] == pass) {
         _pediloYaApp.userLoginNow = _pediloYaApp.bd[p][0];
+        _pediloYaApp.adressNow = _pediloYaApp.bd[p][3];
         cambiarValorPosicionBD(p);
         return 'bien';
       }
     }
-    print('LISTA original: ${_pediloYaApp.bd}');
     return 'error';
   }
 
@@ -213,26 +207,29 @@ class DatosProvider extends ChangeNotifier {
   void guardarDatos(List<dynamic> datos) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String datosJson = json.encode(datos);
-    prefs.setString('listaBD', datosJson);
+    prefs.setString('baseDatos', datosJson);
   }
 
   void cargarDatos() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String datosJson = prefs.getString('listaBD') ?? '[]';
+    String datosJson = prefs.getString('baseDatos') ?? '[]';
     List<dynamic> listaCargada = json.decode(datosJson);
     _pediloYaApp.bd = listaCargada;
-    print(_pediloYaApp.bd);
   }
 
   void guardarNuevoUsuario(
       String userName, String pass, String name, String adress) {
-    List<dynamic> newList = [name, userName, pass, adress, [], []];
+    List<dynamic> newList = [name, userName, pass, adress, [], [], []];
     _pediloYaApp.bd.add(newList);
     guardarDatos(_pediloYaApp.bd);
   }
 
+  void borrarDatos() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('baseDatos');
+  }
+
   String datosNuevos(String name, String pass1, String pass2) {
-    cargarDatos();
     if (pass1 == '' || name == '') {
       return 'null';
     }
@@ -273,6 +270,7 @@ class DatosProvider extends ChangeNotifier {
         _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][5];
     listaTarjeta.add(newList);
     _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][5] = listaTarjeta;
+    guardarDatos(_pediloYaApp.bd);
   }
 
   void eliminarTarjeta(int index) {
@@ -280,5 +278,76 @@ class DatosProvider extends ChangeNotifier {
         _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][5];
     listaTarjeta.removeAt(index);
     _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][5] = listaTarjeta;
+    guardarDatos(_pediloYaApp.bd);
+  }
+
+  List<dynamic> devolverListaComprobanteDatos() {
+    List<dynamic> list = [
+      ['Pedido a nombre de:', _pediloYaApp.userLoginNow],
+      ['Tipo de pago:', devolverListaCarritoSave()[0][3]],
+      ['Direccion:', _pediloYaApp.adressNow]
+    ];
+    return list;
+  }
+
+  void guardarComidaASaved() {
+    List lista1 = [];
+    for (int a = 0; a < _pediloYaApp.listaCarrito.length; a++) {
+      lista1.add(_pediloYaApp.listaCarrito[a]);
+    }
+    List lista2 = lista1[0];
+    lista2.add(_pediloYaApp.tipoDePago);
+    lista1[0] = lista2;
+    _pediloYaApp.listaCarritosave = lista1;
+  }
+
+  List<dynamic> devolverListaCarritoSave() {
+    return _pediloYaApp.listaCarritosave;
+  }
+
+  void guardarComidaAMisCompras() {
+    List listabdMisCompras =
+        _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][6];
+    listabdMisCompras.add(_pediloYaApp.listaCarritosave);
+    _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][6] =
+        listabdMisCompras;
+    guardarDatos(_pediloYaApp.bd);
+  }
+
+  List devolverListaMisCompras() {
+    return _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][6];
+  }
+
+  List<dynamic> devolverListaComprados(int index) {
+    List<dynamic> list1 =
+        _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][6];
+    List<dynamic> listaComidaComprada = list1[index];
+    return listaComidaComprada;
+  }
+
+  List devolverBd() {
+    return _pediloYaApp.bd;
+  }
+
+  List listaCarritoSaved() {
+    return _pediloYaApp.listaCarritosave;
+  }
+
+  int calcularTotalListaCarritoSave() {
+    int total = 0;
+    for (int a = 0; a < _pediloYaApp.listaCarritosave.length; a++) {
+      int precioComida = _pediloYaApp.listaCarritosave[a][2];
+      total = total + precioComida;
+    }
+    return total;
+  }
+
+  void actualizarComida(int index) {
+    List list1 = _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][6];
+    _pediloYaApp.listaCarritosave = list1[index];
+  }
+
+  void vaciarListaCarritoSaved() {
+    _pediloYaApp.listaCarritosave.clear();
   }
 }

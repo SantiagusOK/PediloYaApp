@@ -12,7 +12,7 @@ class PaginaInicio extends StatefulWidget {
 }
 
 class _PaginaInicioState extends State<PaginaInicio> {
-  String image_logo = 'assets/pedilo_logo.png';
+  String imageLogo = 'assets/pedilo_logo.png';
   String fondo = 'assets/fondo.jpg';
   List<String> frasesPedila = [];
   @override
@@ -20,6 +20,8 @@ class _PaginaInicioState extends State<PaginaInicio> {
     super.initState();
     DatosProvider datosProvider =
         Provider.of<DatosProvider>(context, listen: false);
+    datosProvider.cargarDatos();
+    //datosProvider.borrarDatos();
   }
 
   @override
@@ -55,7 +57,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
                       children: [
                         SizedBox(
                           height: 200,
-                          child: Image.asset(image_logo),
+                          child: Image.asset(imageLogo),
                         ),
                         const Text(
                           '"Hay que proceder a pedirla"',

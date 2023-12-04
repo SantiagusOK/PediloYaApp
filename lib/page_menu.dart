@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:pedilo_ya/cartel_seguro.dart';
 import 'package:pedilo_ya/cartelito.dart';
-import 'package:pedilo_ya/page_comidedit.dart';
 import 'package:pedilo_ya/provider.dart';
 import 'package:pedilo_ya/rutas_app.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +26,7 @@ class _PaginaMenuState extends State<PaginaMenu> {
     });
   }
 
-  void _mostrarDialog(
+  void mostrarDialog(
       BuildContext context, String name, int price, String image) {
     showDialog(
       context: context,
@@ -53,7 +52,6 @@ class _PaginaMenuState extends State<PaginaMenu> {
         return Scaffold(
           drawer: Drawer(
             child: ListView(
-              padding: EdgeInsets.zero,
               children: [
                 DrawerHeader(
                   decoration: const BoxDecoration(
@@ -73,10 +71,10 @@ class _PaginaMenuState extends State<PaginaMenu> {
                   title: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.menu_book_rounded),
+                      Icon(Icons.home_outlined),
                       SizedBox(width: 20),
                       Text(
-                        'Menu',
+                        'Inicio',
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -89,7 +87,7 @@ class _PaginaMenuState extends State<PaginaMenu> {
                   title: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.shopping_cart),
+                      Icon(Icons.shopping_cart_outlined),
                       SizedBox(width: 20),
                       Text(
                         'Carrito',
@@ -105,7 +103,23 @@ class _PaginaMenuState extends State<PaginaMenu> {
                   title: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.favorite),
+                      Icon(Icons.shopping_bag_outlined),
+                      SizedBox(width: 20),
+                      Text(
+                        'Mis Compras',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    ruta.goNamed(Pages.compras.name);
+                  },
+                ),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.favorite_outline_rounded),
                       SizedBox(width: 20),
                       Text(
                         'Favorito',
@@ -145,28 +159,29 @@ class _PaginaMenuState extends State<PaginaMenu> {
           appBar: AppBar(
             backgroundColor: Colors.red,
             title: Center(
-                child: SizedBox(
-              width: 200,
-              height: 30,
-              child: Image.asset(pediloYaLogo),
-            )),
+              child: SizedBox(
+                width: 200,
+                height: 30,
+                child: Image.asset(pediloYaLogo),
+              ),
+            ),
           ),
           body: Expanded(
             child: ListView.builder(
+              padding: const EdgeInsets.all(15),
               itemCount: datosProvider.devolverListaMenu().length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    const SizedBox(height: 10),
                     Container(
                       height: 250,
                       width: 1150,
                       decoration: BoxDecoration(
                           boxShadow: const [
                             BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 20,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              offset: Offset(0, 0),
+                              blurRadius: 5,
                             ),
                           ],
                           color: Colors.white,
@@ -175,15 +190,17 @@ class _PaginaMenuState extends State<PaginaMenu> {
                         //////////////////////////// CONTENIDO DEL BOTON ////////////////////////////
                         children: [
                           const SizedBox(width: 15),
+                          //////////////////IMAGEN DE LA COMIDA//////////////////
                           Container(
                             height: 220,
                             width: 360,
-                            decoration: const BoxDecoration(
-                              boxShadow: [
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
                                 BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0.0, 0.0),
-                                  blurRadius: 15,
+                                  color: Colors.black,
+                                  offset: Offset(0, 0),
+                                  blurRadius: 5,
                                 ),
                               ],
                             ),
@@ -196,11 +213,13 @@ class _PaginaMenuState extends State<PaginaMenu> {
                             ),
                           ),
                           const SizedBox(width: 20),
+                          //////////////////NOMBRE DE LA COMIDA//////////////////
                           SizedBox(
                             width: 400,
                             child: Text(
                                 datosProvider.devolverListaMenu()[index][0],
-                                style: const TextStyle(fontSize: 35)),
+                                style: const TextStyle(
+                                    fontSize: 35, fontWeight: FontWeight.bold)),
                           ),
                           const SizedBox(width: 150),
                           Center(
@@ -209,8 +228,8 @@ class _PaginaMenuState extends State<PaginaMenu> {
                               children: [
                                 Row(
                                   children: [
+                                    //////////////////////// BOTON PARA COMPRAR //////////////////////////////
                                     IconButton(
-                                      //////////////////////// BOTON PARA COMPRAR //////////////////////////////
                                       onPressed: () {
                                         datosProvider.cambiarPosicion('menu');
                                         datosProvider.guardarComidaAEditar(
@@ -226,8 +245,8 @@ class _PaginaMenuState extends State<PaginaMenu> {
                                     ),
                                     datosProvider.puedeGuardar(datosProvider
                                             .devolverListaMenu()[index][0])
+                                        //////////////////////// BOTON PARA GUARDAR A FAVORITOS //////////////////////////////
                                         ? IconButton(
-                                            //////////////////////// BOTON PARA GUARDAR A FAVORITOS //////////////////////////////
                                             onPressed: () {
                                               datosProvider.guardarComidaAFavoritos(
                                                   datosProvider
@@ -253,20 +272,22 @@ class _PaginaMenuState extends State<PaginaMenu> {
                                         : IconButton(
                                             //////////////////////// BOTON PARA GUARDAR A FAVORITOS //////////////////////////////
                                             onPressed: () {
-                                              setState(() {
-                                                datosProvider
-                                                    .eliminarComidaAFavoritos(
-                                                  datosProvider.devolverIndex(
-                                                    datosProvider
-                                                            .devolverListaMenu()[
-                                                        index][0],
-                                                  ),
-                                                );
-                                                datosProvider.puedeGuardar(
-                                                    datosProvider
-                                                            .devolverListaMenu()[
-                                                        index][0]);
-                                              });
+                                              setState(
+                                                () {
+                                                  datosProvider
+                                                      .eliminarComidaAFavoritos(
+                                                    datosProvider.devolverIndex(
+                                                      datosProvider
+                                                              .devolverListaMenu()[
+                                                          index][0],
+                                                    ),
+                                                  );
+                                                  datosProvider.puedeGuardar(
+                                                      datosProvider
+                                                              .devolverListaMenu()[
+                                                          index][0]);
+                                                },
+                                              );
                                             },
                                             icon: const Icon(Icons.favorite,
                                                 color: Colors.red, size: 50),
@@ -275,7 +296,10 @@ class _PaginaMenuState extends State<PaginaMenu> {
                                 ),
                                 Text(
                                   '\$${datosProvider.devolverListaMenu()[index][1]}',
-                                  style: const TextStyle(fontSize: 20),
+                                  style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green),
                                 )
                               ],
                             ),

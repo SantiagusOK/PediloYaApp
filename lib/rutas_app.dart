@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pedilo_ya/page_bye.dart';
 import 'package:pedilo_ya/page_carrito.dart';
 import 'package:pedilo_ya/page_comidedit.dart';
+import 'package:pedilo_ya/page_compras.dart';
+import 'package:pedilo_ya/page_comprobante.dart';
 import 'package:pedilo_ya/page_favorito.dart';
 import 'package:pedilo_ya/page_final.dart';
 import 'package:pedilo_ya/page_inicio.dart';
@@ -9,7 +11,7 @@ import 'package:pedilo_ya/page_login.dart';
 import 'package:pedilo_ya/page_menu.dart';
 import 'package:pedilo_ya/page_register.dart';
 import 'package:pedilo_ya/page_resultado.dart';
-import 'package:pedilo_ya/page_tarjetaEdit.dart';
+import 'package:pedilo_ya/page_tarjetaedit.dart';
 import 'package:pedilo_ya/page_tarjetas.dart';
 import 'package:pedilo_ya/page_welcome.dart';
 
@@ -26,7 +28,9 @@ enum Pages {
   carrito,
   resultado,
   fin,
-  tarjetaEdit
+  tarjetaEdit,
+  comprobante,
+  compras
 }
 
 GoRouter ruta = GoRouter(
@@ -122,6 +126,20 @@ GoRouter ruta = GoRouter(
           path: 'tarjetaEdit',
           builder: (context, state) {
             return const PaginaTarjetaEdit();
+          },
+        ),
+        GoRoute(
+          name: Pages.comprobante.name,
+          path: 'comprobante',
+          builder: (context, state) {
+            return const PaginaComprobante();
+          },
+        ),
+        GoRoute(
+          name: Pages.compras.name,
+          path: 'compras',
+          builder: (context, state) {
+            return const PaginaCompras();
           },
         ),
       ],

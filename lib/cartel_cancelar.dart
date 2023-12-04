@@ -54,6 +54,7 @@ class _CartelCancelarPedidoState extends State<CartelCancelarPedido> {
                   TextButton(
                     onPressed: () {
                       datosProvider.borrarPedidos();
+                      datosProvider.vaciarListaCarritoSaved();
                       ruta.goNamed(Pages.menu.name);
                     },
                     child: const Text(

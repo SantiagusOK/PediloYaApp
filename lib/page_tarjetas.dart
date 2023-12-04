@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pedilo_ya/provider.dart';
 import 'package:pedilo_ya/rutas_app.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +30,11 @@ class _PaginaTarjetasState extends State<PaginaTarjetas> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
+          leading: IconButton(
+              onPressed: () {
+                ruta.goNamed(Pages.carrito.name);
+              },
+              icon: const Icon(Icons.arrow_back_ios_rounded)),
           title: Center(
             child: SizedBox(
               width: 200,
@@ -77,8 +81,8 @@ class _PaginaTarjetasState extends State<PaginaTarjetas> {
                                 ),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 30, 85, 131),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 30, 85, 131),
                                       foregroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -129,7 +133,7 @@ class _PaginaTarjetasState extends State<PaginaTarjetas> {
                                                   color: Colors.white,
                                                   fontSize: 15),
                                             ),
-                                            SizedBox(width: 50),
+                                            const SizedBox(width: 50),
                                             Text(
                                               '${datosProvider.devolverListasTarjetas()[index][4]}',
                                               style: const TextStyle(
@@ -164,12 +168,12 @@ class _PaginaTarjetasState extends State<PaginaTarjetas> {
               ),
             ),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 child: Column(
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         width: 500,
                         child: TextButton(
@@ -204,7 +208,7 @@ class _PaginaTarjetasState extends State<PaginaTarjetas> {
                     ),
                     const SizedBox(height: 20),
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         width: 500,
                         child: TextButton(
@@ -241,9 +245,9 @@ class _PaginaTarjetasState extends State<PaginaTarjetas> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         width: 500,
                         child: TextButton(

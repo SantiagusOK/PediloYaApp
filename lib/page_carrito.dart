@@ -40,7 +40,6 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
         return Scaffold(
           drawer: Drawer(
             child: ListView(
-              padding: EdgeInsets.zero,
               children: [
                 DrawerHeader(
                   decoration: const BoxDecoration(
@@ -60,10 +59,10 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                   title: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.menu_book_rounded),
+                      Icon(Icons.home_outlined),
                       SizedBox(width: 20),
                       Text(
-                        'Menu',
+                        'Inicio',
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -76,7 +75,7 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                   title: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.shopping_cart),
+                      Icon(Icons.shopping_cart_outlined),
                       SizedBox(width: 20),
                       Text(
                         'Carrito',
@@ -92,7 +91,23 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                   title: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.favorite),
+                      Icon(Icons.shopping_bag_outlined),
+                      SizedBox(width: 20),
+                      Text(
+                        'Mis Compras',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    ruta.goNamed(Pages.compras.name);
+                  },
+                ),
+                ListTile(
+                  title: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.favorite_outline_rounded),
                       SizedBox(width: 20),
                       Text(
                         'Favorito',
@@ -101,6 +116,7 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                     ],
                   ),
                   onTap: () {
+                    datosProvider.listaFavoritos();
                     ruta.goNamed(Pages.favorito.name);
                   },
                 ),
@@ -213,7 +229,7 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          datosProvider.calcularTotal != 0
+                          datosProvider.calcularTotal() != 0
                               ? Text(
                                   'TOTAL: \$${datosProvider.calcularTotal()}',
                                   style: const TextStyle(
@@ -226,12 +242,12 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                                 ),
                           Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 150,
                                 child: IconButton(
                                   style: IconButton.styleFrom(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 202, 56, 56)),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 202, 56, 56)),
                                   iconSize: 50,
                                   onPressed: () {
                                     ruta.goNamed(Pages.menu.name);
@@ -242,8 +258,8 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Container(
+                              const SizedBox(width: 10),
+                              SizedBox(
                                 width: 150,
                                 child: IconButton(
                                   style: TextButton.styleFrom(

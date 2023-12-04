@@ -12,15 +12,15 @@ class PaginaLogin extends StatefulWidget {
 }
 
 class _PaginaLoginState extends State<PaginaLogin> {
-  TextEditingController _controllerUserName = TextEditingController();
-  TextEditingController _controllerPass1 = TextEditingController();
+  TextEditingController controllerUserName = TextEditingController();
+  TextEditingController controllerPass1 = TextEditingController();
 
   String _username = '';
   String _passUser1 = '';
   void guardarValores() {
     setState(() {
-      _username = _controllerUserName.text;
-      _passUser1 = _controllerPass1.text;
+      _username = controllerUserName.text;
+      _passUser1 = controllerPass1.text;
     });
   }
 
@@ -38,14 +38,6 @@ class _PaginaLoginState extends State<PaginaLogin> {
         return CartelRError(mensajeError: mensaje);
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    DatosProvider datosProvider =
-        Provider.of<DatosProvider>(context, listen: false);
-    datosProvider.cargarDatos();
   }
 
   @override
@@ -95,7 +87,11 @@ class _PaginaLoginState extends State<PaginaLogin> {
                       SizedBox(
                         width: 500,
                         child: TextField(
-                          controller: _controllerUserName,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50)),
+                              labelText: 'Nombre de usuario'),
+                          controller: controllerUserName,
                         ),
                       ),
                       const SizedBox(height: 30),
@@ -103,7 +99,7 @@ class _PaginaLoginState extends State<PaginaLogin> {
                         width: 500,
                         child: TextField(
                           obscureText: true,
-                          controller: _controllerPass1,
+                          controller: controllerPass1,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50)),

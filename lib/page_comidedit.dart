@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pedilo_ya/page_carrito.dart';
-import 'package:pedilo_ya/page_menu.dart';
 import 'package:pedilo_ya/provider.dart';
 import 'package:pedilo_ya/rutas_app.dart';
 import 'package:provider/provider.dart';

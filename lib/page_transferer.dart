@@ -12,11 +12,11 @@ class PaginaTransferer extends StatefulWidget {
 }
 
 class _PaginaTransfererState extends State<PaginaTransferer> {
-  TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerUserName = TextEditingController();
-  TextEditingController _controllerPass1 = TextEditingController();
-  TextEditingController _controllerPass2 = TextEditingController();
-  TextEditingController _controllerAdress = TextEditingController();
+  TextEditingController controllerName = TextEditingController();
+  TextEditingController controllerUserName = TextEditingController();
+  TextEditingController controllerPass1 = TextEditingController();
+  TextEditingController controllerPass2 = TextEditingController();
+  TextEditingController controllerAdress = TextEditingController();
   String _name = '';
   String _username = '';
   String _passUser1 = '';
@@ -24,11 +24,11 @@ class _PaginaTransfererState extends State<PaginaTransferer> {
   String _adressUser = '';
   void guardarValores() {
     setState(() {
-      _name = _controllerName.text;
-      _username = _controllerUserName.text;
-      _passUser1 = _controllerPass1.text;
-      _passUser2 = _controllerPass2.text;
-      _adressUser = _controllerAdress.text;
+      _name = controllerName.text;
+      _username = controllerUserName.text;
+      _passUser1 = controllerPass1.text;
+      _passUser2 = controllerPass2.text;
+      _adressUser = controllerAdress.text;
     });
   }
 
@@ -97,7 +97,7 @@ class _PaginaTransfererState extends State<PaginaTransferer> {
                     SizedBox(
                       width: 500,
                       child: TextField(
-                        controller: _controllerName,
+                        controller: controllerName,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),
@@ -110,7 +110,7 @@ class _PaginaTransfererState extends State<PaginaTransferer> {
                     SizedBox(
                       width: 500,
                       child: TextField(
-                        controller: _controllerUserName,
+                        controller: controllerUserName,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),
@@ -129,7 +129,7 @@ class _PaginaTransfererState extends State<PaginaTransferer> {
                       width: 500,
                       child: TextField(
                         obscureText: true,
-                        controller: _controllerPass1,
+                        controller: controllerPass1,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),
@@ -143,7 +143,7 @@ class _PaginaTransfererState extends State<PaginaTransferer> {
                       width: 500,
                       child: TextField(
                         obscureText: true,
-                        controller: _controllerPass2,
+                        controller: controllerPass2,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),
@@ -158,7 +158,7 @@ class _PaginaTransfererState extends State<PaginaTransferer> {
                 SizedBox(
                   width: 500,
                   child: TextField(
-                    controller: _controllerAdress,
+                    controller: controllerAdress,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50)),
