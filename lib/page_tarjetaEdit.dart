@@ -42,16 +42,31 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 500,
-                        child: Expanded(
+              Container(
+                width: 600,
+                height: 500,
+                padding: const EdgeInsets.all(50),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0, 0),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
                           child: TextField(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                             maxLength: 16,
                             controller: numeroTarjeta,
                             onChanged: (text) {
@@ -63,79 +78,20 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                                 counterText: '',
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                labelText: 'N° de tarjeta'),
+                                hintText: 'N° de tarjeta'),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      DropdownButton<String>(
-                        value: tipo,
-                        focusColor: Colors.transparent,
-                        onChanged: (String? newTipo) {
-                          setState(() {
-                            tipo = newTipo!;
-                          });
-                        },
-                        items: const [
-                          DropdownMenuItem<String>(
-                            value: 'debito',
-                            child: Text('Debito'),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: 'credito',
-                            child: Text('credito'),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: 350,
-                    child: Row(
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: TextField(
-                            maxLength: 2,
-                            textAlign: TextAlign.center,
-                            controller: numeroFechaC1,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            onChanged: (valor) {
-                              setState(() {
-                                fechaC1 = valor;
-                              });
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'dd',
-                                counterText: '',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                          ),
+                        const Text(
+                          'Fecha de vencimiento:',
+                          style: TextStyle(fontSize: 20),
                         ),
                         const SizedBox(width: 10),
-                        const Text('/', style: TextStyle(fontSize: 50)),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: TextField(
-                            maxLength: 2,
-                            textAlign: TextAlign.center,
-                            controller: numeroFechaC2,
-                            onChanged: (valor) {
-                              setState(() {
-                                fechaC2 = valor;
-                              });
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'mm',
-                                counterText: '',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                          ),
-                        ),
-                        const SizedBox(width: 50),
                         Expanded(
                           child: TextField(
                             maxLength: 2,
@@ -147,7 +103,7 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                               });
                             },
                             decoration: InputDecoration(
-                                hintText: 'dd',
+                                hintText: 'mm',
                                 counterText: '',
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10))),
@@ -161,6 +117,9 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: TextField(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                             maxLength: 2,
                             textAlign: TextAlign.center,
                             controller: numeroFechaVc2,
@@ -170,87 +129,141 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                               });
                             },
                             decoration: InputDecoration(
-                                hintText: 'mm',
+                                hintText: 'aa',
                                 counterText: '',
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10))),
                           ),
-                        )
+                        ),
+                        const SizedBox(width: 20),
+                        DropdownButton<String>(
+                          value: tipo,
+                          focusColor: Colors.transparent,
+                          onChanged: (String? newTipo) {
+                            setState(() {
+                              tipo = newTipo!;
+                            });
+                          },
+                          items: const [
+                            DropdownMenuItem<String>(
+                              value: 'debito',
+                              child: Text('Debito'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'credito',
+                              child: Text('credito'),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: 500,
-                    child: TextField(
-                      controller: nombreYapellido,
-                      onChanged: (text) {
-                        setState(() {
-                          nombre = text;
-                        });
-                      },
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          labelText: 'Apellidos y Nombres'),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z ]')),
+                        ],
+                        maxLength: 23,
+                        controller: nombreYapellido,
+                        onChanged: (text) {
+                          setState(() {
+                            nombre = text.toUpperCase();
+                          });
+                        },
+                        decoration: InputDecoration(
+                            counterText: '',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            hintText: 'Propietario de la tarjeta'),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 150,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red),
-                          onPressed: () {
-                            ruta.goNamed(Pages.tarjeta.name);
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.close, color: Colors.white),
-                              Text('Cancelar',
-                                  style: TextStyle(color: Colors.white))
-                            ],
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            onPressed: () {
+                              ruta.goNamed(Pages.tarjeta.name);
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.close, color: Colors.white),
+                                Text('Cancelar',
+                                    style: TextStyle(color: Colors.white))
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 30),
-                      SizedBox(
-                        width: 150,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green),
-                          onPressed: () {
-                            int numero = int.parse(tarjNum);
-                            String fechaC = '$fechaC1 / $fechaC2';
-                            String fechaV = '$fechaVc1 / $fechaVc2';
-                            datosProvider.agregarNuevaTarjeta(
-                                nombre, numero, tipo, fechaC, fechaV);
-                            ruta.goNamed(Pages.tarjeta.name);
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.check,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Listo',
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
+                        const SizedBox(width: 30),
+                        SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            onPressed: () {
+                              String verificacion =
+                                  datosProvider.verificarDatosTarjetas(
+                                      tarjNum, fechaVc1, fechaVc2, nombre);
+                              switch (verificacion) {
+                                case 'vacio':
+                                  mostrarSnakbar(
+                                      'Trate de rellenar todas las casillas con la informacion');
+                                case 'misma tarjeta':
+                                  mostrarSnakbar(
+                                      'Esta tarjeta ya la tienes registrada');
+                                case 'mal fecha mes':
+                                  mostrarSnakbar(
+                                      'Ingrese bien el mes de cierre de la tarjeta');
+                                case 'mal fecha año1':
+                                  mostrarSnakbar(
+                                      'Esta tarjeta ya se encuentra vencida para que sea usada en la app');
+                                case 'mal fecha año2':
+                                  mostrarSnakbar(
+                                      'Año de caducida mal colocada');
+                                case 'nombre mal1' ||
+                                      'nombre mal2' ||
+                                      'nombre mal3':
+                                  mostrarSnakbar(
+                                      'Escriba bien el nombre del propietario de la tarjeta');
+                                case 'bien':
+                                  int fechaMes = int.parse(fechaVc1);
+                                  int fechaYear = int.parse(fechaVc2);
+                                  datosProvider.agregarNuevaTarjeta(nombre,
+                                      tarjNum, tipo, fechaMes, fechaYear);
+                                  ruta.goNamed(Pages.tarjeta.name);
+                              }
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  'Listo',
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
               Container(
                 height: 300,
@@ -288,20 +301,10 @@ class _PaginaTarjetaEditState extends State<PaginaTarjetaEdit> {
                     Positioned(
                       top: 210,
                       left: 150,
-                      child: Row(
-                        children: [
-                          Text(
-                            '$fechaC1 / $fechaC2 ',
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 15),
-                          ),
-                          const SizedBox(width: 50),
-                          Text(
-                            '$fechaVc1 / $fechaVc2',
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 15),
-                          ),
-                        ],
+                      child: Text(
+                        '$fechaVc1 / $fechaVc2',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),
                     Positioned(

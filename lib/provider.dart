@@ -258,13 +258,13 @@ class DatosProvider extends ChangeNotifier {
   }
 
   void agregarNuevaTarjeta(
-      String name, int numero, String tipo, String fechaC, String fechaV) {
+      String name, String numero, String tipo, int fechaMes, int fechaYear) {
     List newList = [
       name,
       numero,
       tipo,
-      fechaC,
-      fechaV,
+      fechaMes,
+      fechaYear,
     ];
     List listaTarjeta =
         _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][5];
@@ -279,6 +279,37 @@ class DatosProvider extends ChangeNotifier {
     listaTarjeta.removeAt(index);
     _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][5] = listaTarjeta;
     guardarDatos(_pediloYaApp.bd);
+  }
+
+  String verificarDatosTarjetas(
+      String tarjNum, String fechaMes, String fechaYear, String nombre) {
+    List listTarjetasUser =
+        _pediloYaApp.bd[_pediloYaApp.posiciondeListaBaseDeDato][5];
+    if (tarjNum == '' || fechaMes == '' || fechaYear == '' || nombre == '') {
+      return 'vacio';
+    }
+    //verifica si los numeros de la tarjeta ya estan registados en la base de datos del usuario
+    for (int posicion = 0; posicion < listTarjetasUser.length; posicion++) {
+      if (listTarjetasUser[posicion][1] == tarjNum) {
+        return 'misma tarjeta';
+      }
+    }
+    //verifica si los meses estan bien colocados
+    int fechaM = int.parse(fechaMes);
+    if (fechaM < 1 || fechaM > 12) {
+      return 'mal fecha mes';
+    }
+    //verifica si los años estan bien colocados
+    int fechaY = int.parse(fechaYear);
+    if (fechaY <= 23) {
+      return 'mal fecha año1';
+      //return 'Tarjeta vencida, o año mal puesta';
+    } else if (fechaY > 30) {
+      return 'mal fecha año2';
+      //return 'Ingrese bien el año de cierra de la tarjeta';
+    }
+    //si todo esta bien, devuelve un mensaje de 'bien'
+    return 'bien';
   }
 
   List<dynamic> devolverListaComprobanteDatos() {

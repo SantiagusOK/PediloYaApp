@@ -133,8 +133,12 @@ class _PaginaResultadoState extends State<PaginaResultado> {
                               Text(datosProvider
                                   .devolverListaComprobanteDatos()[index][0]),
                               const SizedBox(width: 10),
-                              Text(datosProvider
-                                  .devolverListaComprobanteDatos()[index][1]),
+                              Text(
+                                datosProvider
+                                    .devolverListaComprobanteDatos()[index][1],
+                                maxLines: 3,
+                                overflow: TextOverflow.clip,
+                              ),
                             ],
                           );
                         },

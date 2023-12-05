@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pedilo_ya/cartel_register_error.dart';
 import 'package:pedilo_ya/provider.dart';
 import 'package:pedilo_ya/rutas_app.dart';
@@ -97,7 +98,12 @@ class _PaginaRegistroState extends State<PaginaRegistro> {
                     SizedBox(
                       width: 500,
                       child: TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z ]')),
+                        ],
                         controller: controllerName,
+                        keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),

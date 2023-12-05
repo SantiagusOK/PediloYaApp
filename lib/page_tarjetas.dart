@@ -133,7 +133,14 @@ class _PaginaTarjetasState extends State<PaginaTarjetas> {
                                                   color: Colors.white,
                                                   fontSize: 15),
                                             ),
-                                            const SizedBox(width: 50),
+                                            const SizedBox(width: 10),
+                                            const Text(
+                                              '/',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15),
+                                            ),
+                                            const SizedBox(width: 10),
                                             Text(
                                               '${datosProvider.devolverListasTarjetas()[index][4]}',
                                               style: const TextStyle(
